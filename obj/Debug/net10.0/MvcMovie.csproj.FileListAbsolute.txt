@@ -364,3 +364,4 @@
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/bin/Debug/net10.0/runtimes/win-x86/native/e_sqlite3.dll
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/MvcMovie.csproj.AssemblyReference.cache
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/MvcMovie.csproj.Up2Date
+/Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/MvcMovie.sourcelink.json
