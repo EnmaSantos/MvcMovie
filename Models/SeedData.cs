@@ -52,6 +52,30 @@ public static class SeedData
                     Genre = "Western",
                     Price = 3.99M,
                     Rating = "NR"
+                },
+                new Movie
+                {
+                    Title = "Arrival",
+                    ReleaseDate = DateTime.Parse("2016-11-11"),
+                    Genre = "Science Fiction",
+                    Price = 12.99M,
+                    Rating = "PG-13"
+                },
+                new Movie
+                {
+                    Title = "Tenet",
+                    ReleaseDate = DateTime.Parse("2020-09-03"),
+                    Genre = "Science Fiction",
+                    Price = 14.99M,
+                    Rating = "PG-13"
+                },
+                new Movie
+                {
+                    Title = "Rise of the Guardians",
+                    ReleaseDate = DateTime.Parse("2012-11-21"),
+                    Genre = "Animation",
+                    Price = 9.99M,
+                    Rating = "PG"
                 }
             );
             context.SaveChanges();

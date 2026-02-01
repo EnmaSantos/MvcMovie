@@ -20,38 +20,51 @@ namespace MvcMovie.Controllers
         }
 
         // GET: Movies
-public async Task<IActionResult> Index(string movieGenre, string searchString)
-{
-    if (_context.Movie == null)
-    {
-        return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
-    }
+        // GET: Movies
+        public async Task<IActionResult> Index(string movieGenre, string searchString, int? movieYear)
+        {
+            if (_context.Movie == null)
+            {
+                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+            }
 
-    // Use LINQ to get list of genres.
-    IQueryable<string> genreQuery = from m in _context.Movie
-                                    orderby m.Genre
-                                    select m.Genre;
-    var movies = from m in _context.Movie
-                 select m;
+            // Use LINQ to get list of genres.
+            IQueryable<string> genreQuery = from m in _context.Movie
+                                            orderby m.Genre
+                                            select m.Genre;
 
-    if (!string.IsNullOrEmpty(searchString))
-    {
-        movies = movies.Where(s => s.Title!.ToUpper().Contains(searchString.ToUpper()));
-    }
+            // Use LINQ to get list of years.
+            IQueryable<int> yearQuery = from m in _context.Movie
+                                        orderby m.ReleaseDate.Year descending
+                                        select m.ReleaseDate.Year;
 
-    if (!string.IsNullOrEmpty(movieGenre))
-    {
-        movies = movies.Where(x => x.Genre == movieGenre);
-    }
+            var movies = from m in _context.Movie
+                         select m;
 
-    var movieGenreVM = new MovieGenreViewModel
-    {
-        Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
-        Movies = await movies.ToListAsync()
-    };
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title!.ToUpper().Contains(searchString.ToUpper()));
+            }
 
-    return View(movieGenreVM);
-}
+            if (!string.IsNullOrEmpty(movieGenre))
+            {
+                movies = movies.Where(x => x.Genre == movieGenre);
+            }
+
+            if (movieYear.HasValue)
+            {
+                movies = movies.Where(x => x.ReleaseDate.Year >= movieYear);
+            }
+
+            var movieGenreVM = new MovieGenreViewModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Years = new SelectList(await yearQuery.Distinct().ToListAsync()),
+                Movies = await movies.ToListAsync()
+            };
+
+            return View(movieGenreVM);
+        }
 
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -21,7 +21,6 @@
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/scopedcss/Views/Shared/_Layout.cshtml.rz.scp.css
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/scopedcss/bundle/MvcMovie.styles.css
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/scopedcss/projectbundle/MvcMovie.bundle.scp.css
-/Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/compressed/8151r5ozgn-{0}-lugek5hnai-lugek5hnai.gz
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/compressed/dqa1xiugtd-{0}-61n19gt1b8-61n19gt1b8.gz
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/compressed/6clnpnw2tb-{0}-fr7q2aak1r-fr7q2aak1r.gz
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/compressed/gln79jq0fq-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -365,3 +364,4 @@
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/MvcMovie.csproj.AssemblyReference.cache
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/MvcMovie.csproj.Up2Date
 /Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/MvcMovie.sourcelink.json
+/Users/enmanueldelossantoscruz/Documents/Projects/CSE 325/ASP.NET CORE/MvcMovie/obj/Debug/net10.0/compressed/8151r5ozgn-{0}-3kd56jeush-3kd56jeush.gz
