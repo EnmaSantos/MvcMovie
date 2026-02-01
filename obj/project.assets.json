@@ -1538,6 +1538,19 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
+      "Microsoft.Extensions.Validation/10.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net10.0/_._": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net10.0/_._": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.Identity.Client/4.73.1": {
         "type": "package",
         "dependencies": {
@@ -4991,6 +5004,22 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Microsoft.Extensions.Validation/10.0.0": {
+      "sha512": "viIKcmaf1akdhx77c+dLkODvhL+HyonHNpBsicndoi47zvbSeHJEWPOk188NnFCh+dCUz7Icld1jPMbS5E2fqw==",
+      "type": "package",
+      "path": "microsoft.extensions.validation/10.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "THIRD-PARTY-NOTICES.TXT",
+        "analyzers/dotnet/cs/Microsoft.Extensions.Validation.ValidationsGenerator.dll",
+        "lib/net10.0/Microsoft.Extensions.Validation.dll",
+        "lib/net10.0/Microsoft.Extensions.Validation.xml",
+        "microsoft.extensions.validation.10.0.0.nupkg.sha512",
+        "microsoft.extensions.validation.nuspec"
+      ]
+    },
     "Microsoft.Identity.Client/4.73.1": {
       "sha512": "NnDLS8QwYqO5ZZecL2oioi1LUqjh5Ewk4bMLzbgiXJbQmZhDLtKwLxL3DpGMlQAJ2G4KgEnvGPKa+OOgffeJbw==",
       "type": "package",
@@ -6450,6 +6479,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 10.0.2",
       "Microsoft.EntityFrameworkCore.Sqlite >= 10.0.2",
       "Microsoft.EntityFrameworkCore.Tools >= 10.0.2",
+      "Microsoft.Extensions.Validation >= 10.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 10.0.2"
     ]
   },
@@ -6516,6 +6546,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[10.0.2, )"
+          },
+          "Microsoft.Extensions.Validation": {
+            "target": "Package",
+            "version": "[10.0.0, )"
           },
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
@@ -6958,5 +6992,17 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1510",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "PackageReference Microsoft.Extensions.Validation will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "libraryId": "Microsoft.Extensions.Validation",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
 }

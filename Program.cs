@@ -14,6 +14,7 @@ else
 }
 
 // Add services to the container.
+builder.Services.AddValidation();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
