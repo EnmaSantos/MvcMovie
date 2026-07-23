@@ -1,0 +1,11 @@
+{
+  "name": "mvc-movie",
+  "private": true,
+  "scripts": {
+    "build:client": "tsc --project tsconfig.json",
+    "watch:client": "tsc --project tsconfig.json --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}
