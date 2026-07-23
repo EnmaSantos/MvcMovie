@@ -1,48 +1,41 @@
-@model MvcMovie.Models.Movie
+@model Movie
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.Title;
 }
 
-<h1>Details</h1>
+<article class="shelf-detail">
+    <div class="shelf-detail__texture cover-@(Model.Id % 6)"></div>
+    <div class="page-width shelf-detail__inner">
+        <a class="back-link" asp-action="Index"><span aria-hidden="true">←</span> Back to my shelf</a>
 
-<div>
-    <h4>Movie</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+        <div class="shelf-detail__grid">
+            <div class="shelf-detail__cover cover-@(Model.Id % 6)">
+                <span aria-hidden="true">@Model.Title?.FirstOrDefault()</span>
+                <small>Personal archive · @Model.ReleaseDate.Year</small>
+            </div>
+
+            <div class="shelf-detail__copy">
+                <p class="eyebrow"><span></span> From your collection</p>
+                <h1>@Model.Title</h1>
+                <div class="shelf-detail__chips">
+                    <span>@Model.Genre</span>
+                    <span>@Model.ReleaseDate.Year</span>
+                    <span class="rating-chip">@Model.Rating</span>
+                </div>
+                <p class="shelf-detail__note">A saved entry in your personal movie archive.</p>
+
+                <dl class="shelf-detail__stats">
+                    <div><dt>Release date</dt><dd>@Model.ReleaseDate.ToString("MMMM d, yyyy")</dd></div>
+                    <div><dt>Shelf value</dt><dd>@Model.Price.ToString("C")</dd></div>
+                    <div><dt>Catalog no.</dt><dd>RH-@Model.Id.ToString("D4")</dd></div>
+                </dl>
+
+                <div class="shelf-detail__actions">
+                    <a class="button button--accent" asp-action="Edit" asp-route-id="@Model.Id">Edit details</a>
+                    <a class="button button--ghost" asp-action="Delete" asp-route-id="@Model.Id">Remove from shelf</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

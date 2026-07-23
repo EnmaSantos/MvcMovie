@@ -1,7 +1,8 @@
 # MvcMovie
 
 MvcMovie is an ASP.NET Core MVC sample application for creating, browsing,
-editing, searching, and deleting movie records.
+editing, searching, and deleting movie records. It also includes a live movie
+discovery experience powered by TMDB, with optional OMDb detail enrichment.
 
 ## Technology
 
@@ -9,6 +10,7 @@ editing, searching, and deleting movie records.
 - Entity Framework Core 10
 - SQLite for local development
 - Microsoft SQL Server / Azure SQL Database for deployed environments
+- TMDB and OMDb server-side API integrations
 
 ## Run locally
 
@@ -22,6 +24,22 @@ dotnet run
 The development profile uses SQLite and stores data in `MvcMovie.db`. The app
 will be available at the HTTPS or HTTP address printed after it starts (the
 default profiles use `https://localhost:7030` and `http://localhost:5245`).
+When the local catalog is empty, development mode adds the sample shelf entries
+from `Models/SeedData.cs`.
+
+## Movie API setup
+
+Copy `.env.example` to `.env` and add your API credentials:
+
+```bash
+cp .env.example .env
+```
+
+`TMDB_API_READ_KEY` is preferred; `TMDB_API_KEY` is supported as a fallback.
+`OMDB_API_KEY` is optional and adds credits, awards, and box-office details to
+film profiles. The application loads these values on the server. `.env` is
+ignored by Git and API credentials are never intentionally rendered into HTML
+or browser-side JavaScript.
 
 ## Configuration
 

@@ -1,6 +1,17 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+@{
+    ViewData["Title"] = "Privacy & data";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<section class="prose-page page-width">
+    <p class="eyebrow eyebrow--dark"><span></span> The fine print</p>
+    <h1>Privacy &amp; data</h1>
+    <p class="prose-page__lead">Reelhouse is a portfolio project built to demonstrate an ASP.NET Core MVC application with a local catalog and live movie discovery.</p>
+
+    <div class="prose-grid">
+        <section><span>01</span><h2>Your shelf</h2><p>Movies you add are stored in the application database. This demo does not ask for an account or collect personal profile information.</p></section>
+        <section><span>02</span><h2>Movie discovery</h2><p>Trending titles, artwork, and metadata come from TMDB. Selected film details may be enriched with OMDb data.</p></section>
+        <section><span>03</span><h2>API credentials</h2><p>API keys are loaded by the server from environment variables and are never intentionally sent to the browser.</p></section>
+    </div>
+
+    <a class="button button--dark" asp-action="Index">Return to discovery</a>
+</section>

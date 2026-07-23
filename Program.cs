@@ -1,6 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using MvcMovie.Configuration;
 using MvcMovie.Data;
+using MvcMovie.Models;
+using MvcMovie.Services;
+
+EnvironmentFile.LoadIfPresent(Path.Combine(Directory.GetCurrentDirectory(), ".env"));
+
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment())
 {
@@ -16,8 +21,25 @@ else
 // Add services to the container.
 builder.Services.AddValidation();
 builder.Services.AddControllersWithViews();
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<IMovieDiscoveryService, MovieDiscoveryService>(client =>
+{
+    client.BaseAddress = new Uri("https://api.themoviedb.org/3/");
+    client.Timeout = TimeSpan.FromSeconds(8);
+});
+builder.Services.AddHttpClient("omdb", client =>
+{
+    client.BaseAddress = new Uri("https://www.omdbapi.com/");
+    client.Timeout = TimeSpan.FromSeconds(5);
+});
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    SeedData.Initialize(scope.ServiceProvider);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

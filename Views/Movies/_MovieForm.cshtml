@@ -1,0 +1,38 @@
+@model Movie
+
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+<div class="form-grid">
+    <div class="field field--wide">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" placeholder="e.g. The Grand Budapest Hotel" autofocus />
+        <span asp-validation-for="Title" class="field__error"></span>
+    </div>
+
+    <div class="field">
+        <label asp-for="ReleaseDate"></label>
+        <input asp-for="ReleaseDate" />
+        <span asp-validation-for="ReleaseDate" class="field__error"></span>
+    </div>
+
+    <div class="field">
+        <label asp-for="Genre"></label>
+        <input asp-for="Genre" placeholder="Drama, Comedy…" />
+        <span asp-validation-for="Genre" class="field__error"></span>
+    </div>
+
+    <div class="field">
+        <label asp-for="Rating">Content rating</label>
+        <input asp-for="Rating" placeholder="PG-13" />
+        <span asp-validation-for="Rating" class="field__error"></span>
+    </div>
+
+    <div class="field">
+        <label asp-for="Price">Shelf value</label>
+        <div class="field__currency">
+            <span aria-hidden="true">$</span>
+            <input asp-for="Price" placeholder="0.00" />
+        </div>
+        <span asp-validation-for="Price" class="field__error"></span>
+    </div>
+</div>

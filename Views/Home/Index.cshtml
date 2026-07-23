@@ -1,8 +1,133 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@model DiscoveryPageViewModel
+
+@{
+    ViewData["Title"] = Model.IsSearch ? $"Search · {Model.SearchQuery}" : "Discover great films";
+    var featured = Model.Featured;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@if (!Model.IsSearch && featured is not null)
+{
+    <section class="hero" style="--hero-image: url('@featured.BackdropUrl')">
+        <div class="hero__wash"></div>
+        <div class="hero__content page-width">
+            <p class="eyebrow"><span></span> This week’s spotlight</p>
+            <h1>@featured.Title</h1>
+            <p class="hero__overview">@featured.Overview</p>
+            <div class="hero__facts">
+                <span>@featured.ReleaseYear</span>
+                <span class="score"><span aria-hidden="true">★</span> @featured.Score</span>
+                <span>@featured.VoteCount.ToString("N0") ratings</span>
+            </div>
+            <div class="hero__actions">
+                <a class="button button--accent" asp-action="Movie" asp-route-id="@featured.Id">Explore the film</a>
+                <a class="text-link text-link--light" href="#trending">See what’s trending <span aria-hidden="true">↓</span></a>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <section class="search-hero">
+        <div class="page-width">
+            <p class="eyebrow"><span></span> Find your next watch</p>
+            <h1>@(Model.IsSearch ? "Search the archive" : "Cinema, curated daily.")</h1>
+            <p>Explore current favorites, then save your own picks to a personal shelf.</p>
+        </div>
+    </section>
+}
+
+<section class="discovery-body page-width">
+    <form class="discovery-search" asp-action="Index" method="get" role="search">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+        <label class="sr-only" for="discovery-query">Search movies</label>
+        <input id="discovery-query" name="query" value="@Model.SearchQuery" type="search" placeholder="Search by title…" autocomplete="off" />
+        <button type="submit">Search</button>
+    </form>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Notice))
+    {
+        <div class="notice" role="status">
+            <span aria-hidden="true">◌</span>
+            <div><strong>We’ll be right back.</strong><p>@Model.Notice</p></div>
+        </div>
+    }
+
+    @if (Model.IsSearch)
+    {
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow eyebrow--dark"><span></span> Search results</p>
+                <h2>“@Model.SearchQuery”</h2>
+            </div>
+            <a class="text-link" asp-action="Index">Clear search <span aria-hidden="true">×</span></a>
+        </div>
+
+        @if (Model.SearchResults.Count > 0)
+        {
+            <div class="poster-grid poster-grid--results">
+                @foreach (var movie in Model.SearchResults)
+                {
+                    <partial name="_DiscoveryCard" model="movie" />
+                }
+            </div>
+        }
+        else if (string.IsNullOrWhiteSpace(Model.Notice))
+        {
+            <div class="empty-state">
+                <span class="empty-state__reel" aria-hidden="true">◎</span>
+                <h2>No titles found</h2>
+                <p>Try a broader title or check the spelling.</p>
+                <a class="button button--dark" asp-action="Index">Back to discovery</a>
+            </div>
+        }
+    }
+    else
+    {
+        @if (Model.Trending.Count > 0)
+        {
+            <section id="trending" class="movie-section">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow eyebrow--dark"><span></span> In the conversation</p>
+                        <h2>Trending this week</h2>
+                    </div>
+                    <p class="section-heading__note">The films people can’t stop talking about.</p>
+                </div>
+                <div class="poster-grid">
+                    @foreach (var movie in Model.Trending.Skip(1))
+                    {
+                        <partial name="_DiscoveryCard" model="movie" />
+                    }
+                </div>
+            </section>
+        }
+
+        @if (Model.Popular.Count > 0)
+        {
+            <section class="movie-section">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow eyebrow--dark"><span></span> Crowd favorites</p>
+                        <h2>Popular right now</h2>
+                    </div>
+                    <a class="text-link" asp-controller="Movies" asp-action="Create">Add your own pick <span aria-hidden="true">↗</span></a>
+                </div>
+                <div class="poster-grid">
+                    @foreach (var movie in Model.Popular)
+                    {
+                        <partial name="_DiscoveryCard" model="movie" />
+                    }
+                </div>
+            </section>
+        }
+
+        <section class="shelf-callout">
+            <div>
+                <p class="eyebrow"><span></span> Your collection</p>
+                <h2>Keep the films that stay with you.</h2>
+                <p>Build a personal shelf, track your favorites, and make the catalog unmistakably yours.</p>
+            </div>
+            <a class="button button--accent" asp-controller="Movies" asp-action="Index">Open my shelf</a>
+        </section>
+    }
+</section>

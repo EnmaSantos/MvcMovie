@@ -1,35 +1,25 @@
-@model MvcMovie.Models.Movie
+@model Movie
 
 @{
-    ViewData["Title"] = "Delete Movie";
+    ViewData["Title"] = $"Remove {Model.Title}";
 }
 
-<h1>Delete Movie</h1>
+<section class="confirm-page page-width">
+    <div class="confirm-card">
+        <div class="confirm-card__symbol" aria-hidden="true">×</div>
+        <p class="eyebrow eyebrow--dark"><span></span> Remove from shelf</p>
+        <h1>Let “@Model.Title” go?</h1>
+        <p>This removes the entry from your personal catalog. The film will still be waiting for you in discovery.</p>
 
-<div class="alert alert-warning" role="alert">
-    This action permanently removes the movie from the catalog.
-</div>
+        <div class="confirm-card__movie">
+            <div class="mini-cover cover-@(Model.Id % 6)">@Model.Title?.FirstOrDefault()</div>
+            <div><strong>@Model.Title</strong><span>@Model.ReleaseDate.Year · @Model.Genre · @Model.Rating</span></div>
+        </div>
 
-<div>
-    <h4>@Model.Title</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.ReleaseDate)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.ReleaseDate)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Genre)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Genre)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Price)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Price)</dd>
-
-        <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Rating)</dt>
-        <dd class="col-sm-10">@Html.DisplayFor(model => model.Rating)</dd>
-    </dl>
-
-    <form asp-action="Delete" data-confirm="Delete '@Model.Title'? This cannot be undone.">
-        <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger">Delete permanently</button>
-        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
-    </form>
-</div>
+        <form asp-action="Delete" data-confirm="Remove '@Model.Title' from your shelf?">
+            <input type="hidden" asp-for="Id" />
+            <a asp-action="Details" asp-route-id="@Model.Id" class="button button--quiet">Keep it</a>
+            <button type="submit" class="button button--danger">Remove film</button>
+        </form>
+    </div>
+</section>

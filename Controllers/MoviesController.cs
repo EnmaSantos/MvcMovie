@@ -30,12 +30,10 @@ namespace MvcMovie.Controllers
 
             // Use LINQ to get list of genres.
             IQueryable<string> genreQuery = from m in _context.Movie
-                                            orderby m.Genre
                                             select m.Genre;
 
             // Use LINQ to get list of years.
             IQueryable<int> yearQuery = from m in _context.Movie
-                                        orderby m.ReleaseDate.Year descending
                                         select m.ReleaseDate.Year;
 
             var movies = from m in _context.Movie
@@ -58,9 +56,12 @@ namespace MvcMovie.Controllers
 
             var movieGenreVM = new MovieGenreViewModel
             {
-                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
-                Years = new SelectList(await yearQuery.Distinct().ToListAsync()),
-                Movies = await movies.ToListAsync()
+                Genres = new SelectList(await genreQuery.Distinct().OrderBy(genre => genre).ToListAsync()),
+                Years = new SelectList(await yearQuery.Distinct().OrderByDescending(year => year).ToListAsync()),
+                Movies = await movies.OrderBy(movie => movie.Title).ToListAsync(),
+                MovieGenre = movieGenre,
+                MovieYear = movieYear,
+                SearchString = searchString
             };
 
             return View(movieGenreVM);

@@ -1,48 +1,60 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - De los Santos Cruz Movies</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <meta name="theme-color" content="#0b0d12" />
+    <title>@ViewData["Title"] · Reelhouse</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MvcMovie.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Movies" asp-action="Index">De los Santos Cruz Movies</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <header class="site-header">
+        <div class="site-header__inner">
+            <a class="brand" asp-controller="Home" asp-action="Index" aria-label="Reelhouse home">
+                <span class="brand__mark" aria-hidden="true">R</span>
+                <span class="brand__name">Reelhouse</span>
+            </a>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - De los Santos Cruz Movies - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-navigation">
+                <span></span><span></span>
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+
+            <nav id="site-navigation" class="site-nav" data-nav-menu aria-label="Main navigation">
+                <a class="site-nav__link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && ViewContext.RouteData.Values["action"]?.ToString() != "Privacy" ? "is-active" : "")"
+                   asp-controller="Home" asp-action="Index">Discover</a>
+                <a class="site-nav__link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Movies" ? "is-active" : "")"
+                   asp-controller="Movies" asp-action="Index">My shelf</a>
+                <a class="button button--small button--light" asp-controller="Movies" asp-action="Create">
+                    <span aria-hidden="true">＋</span> Add a film
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="site-main" role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">
+            <div>
+                <a class="brand brand--footer" asp-controller="Home" asp-action="Index">
+                    <span class="brand__mark" aria-hidden="true">R</span>
+                    <span class="brand__name">Reelhouse</span>
+                </a>
+                <p>A small, lovingly curated corner of cinema.</p>
+            </div>
+            <div class="site-footer__meta">
+                <p>Movie discovery powered by <a href="https://www.themoviedb.org/" target="_blank" rel="noreferrer">TMDB</a> and <a href="https://www.omdbapi.com/" target="_blank" rel="noreferrer">OMDb</a>.</p>
+                <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+                <a asp-controller="Home" asp-action="Privacy">Privacy &amp; data</a>
+            </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

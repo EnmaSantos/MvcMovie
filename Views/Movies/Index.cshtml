@@ -1,73 +1,92 @@
-@model MvcMovie.Models.MovieGenreViewModel
+@model MovieGenreViewModel
 
 @{
-    ViewData["Title"] = "Movie Library";
+    ViewData["Title"] = "My movie shelf";
+    var movies = Model.Movies ?? [];
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <h1 class="mb-1">Movie Library</h1>
-        <p class="text-muted mb-0">Search, filter, and maintain the catalog.</p>
+<section class="inner-hero">
+    <div class="page-width inner-hero__content">
+        <div>
+            <p class="eyebrow"><span></span> Personal collection</p>
+            <h1>My movie shelf</h1>
+            <p>A small archive of films worth remembering.</p>
+        </div>
+        <a asp-action="Create" class="button button--accent"><span aria-hidden="true">＋</span> Add a film</a>
     </div>
-    <a asp-action="Create" class="btn btn-primary">Add Movie</a>
-</div>
+</section>
 
-<form id="movie-filter-form" asp-controller="Movies" asp-action="Index" method="get" class="row g-2 align-items-end mb-3">
-    <div class="col-md-3">
-        <label asp-for="MovieGenre" class="form-label">Genre</label>
-        <select asp-for="MovieGenre" asp-items="Model.Genres" class="form-select">
-            <option value="">All genres</option>
-        </select>
+<section class="catalog page-width">
+    <form id="movie-filter-form" asp-action="Index" method="get" class="filter-bar">
+        <div class="field field--search">
+            <label asp-for="SearchString">Search your shelf</label>
+            <div class="field__with-icon">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+                <input id="movie-search" type="search" asp-for="SearchString" placeholder="Title…  Press / to focus" />
+            </div>
+        </div>
+        <div class="field">
+            <label asp-for="MovieGenre">Genre</label>
+            <select asp-for="MovieGenre" asp-items="Model.Genres">
+                <option value="">Every genre</option>
+            </select>
+        </div>
+        <div class="field">
+            <label asp-for="MovieYear">Released since</label>
+            <select asp-for="MovieYear" asp-items="Model.Years">
+                <option value="">Any year</option>
+            </select>
+        </div>
+        <div class="filter-bar__actions">
+            <button type="submit" class="button button--dark">Apply</button>
+            <button id="clear-filters" type="button" class="button button--quiet">Reset</button>
+        </div>
+    </form>
+
+    <div class="catalog__summary">
+        <p id="movie-result-count" aria-live="polite">@movies.Count @(movies.Count == 1 ? "film" : "films") on your shelf</p>
+        <span class="catalog__line"></span>
     </div>
 
-    <div class="col-md-3">
-        <label asp-for="MovieYear" class="form-label">Released since</label>
-        <select asp-for="MovieYear" asp-items="Model.Years" class="form-select">
-            <option value="">All years</option>
-        </select>
-    </div>
-
-    <div class="col-md-4">
-        <label asp-for="SearchString" class="form-label">Title</label>
-        <input id="movie-search" type="search" asp-for="SearchString" class="form-control" placeholder="Press / to search" />
-    </div>
-
-    <div class="col-md-2 d-flex gap-2">
-        <button type="submit" class="btn btn-dark">Filter</button>
-        <button id="clear-filters" type="button" class="btn btn-outline-secondary">Clear</button>
-    </div>
-</form>
-
-<p id="movie-result-count" class="small text-muted" aria-live="polite"></p>
-
-<div class="table-responsive">
-    <table class="table table-hover align-middle">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Movies![0].Title)</th>
-                <th>@Html.DisplayNameFor(model => model.Movies![0].ReleaseDate)</th>
-                <th>@Html.DisplayNameFor(model => model.Movies![0].Genre)</th>
-                <th>@Html.DisplayNameFor(model => model.Movies![0].Price)</th>
-                <th>@Html.DisplayNameFor(model => model.Movies![0].Rating)</th>
-                <th class="text-end">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Movies!)
+    @if (movies.Count > 0)
+    {
+        <div class="shelf-grid">
+            @foreach (var item in movies)
             {
-                <tr data-movie-row>
-                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                    <td>@Html.DisplayFor(modelItem => item.ReleaseDate)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Genre)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Rating)</td>
-                    <td class="text-end text-nowrap">
-                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">View</a>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">Delete</a>
-                    </td>
-                </tr>
+                <article class="shelf-card" data-movie-row>
+                    <a class="shelf-card__cover cover-@(item.Id % 6)" asp-action="Details" asp-route-id="@item.Id">
+                        <span class="shelf-card__monogram" aria-hidden="true">@item.Title?.FirstOrDefault()</span>
+                        <span class="shelf-card__year">@item.ReleaseDate.Year</span>
+                        <span class="shelf-card__open">Open notes <span aria-hidden="true">↗</span></span>
+                    </a>
+                    <div class="shelf-card__body">
+                        <div class="shelf-card__meta">
+                            <span>@item.Genre</span>
+                            <span class="rating-chip">@item.Rating</span>
+                        </div>
+                        <h2><a asp-action="Details" asp-route-id="@item.Id">@item.Title</a></h2>
+                        <div class="shelf-card__footer">
+                            <span>@item.Price.ToString("C")</span>
+                            <div class="card-actions">
+                                <a asp-action="Edit" asp-route-id="@item.Id" aria-label="Edit @item.Title">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" aria-label="Delete @item.Title">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
             }
-        </tbody>
-    </table>
-</div>
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <span class="empty-state__reel" aria-hidden="true">◎</span>
+            <h2>Your shelf is waiting</h2>
+            <p>Add a film you love, or reset the filters to see the rest of your collection.</p>
+            <div class="empty-state__actions">
+                <a class="button button--dark" asp-action="Create">Add the first film</a>
+                <button id="clear-filters-empty" class="button button--quiet" type="button">Reset filters</button>
+            </div>
+        </div>
+    }
+</section>

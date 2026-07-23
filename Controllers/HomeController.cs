@@ -1,14 +1,22 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MvcMovie.Models;
+using MvcMovie.Services;
 
 namespace MvcMovie.Controllers;
 
-public class HomeController : Controller
+public class HomeController(IMovieDiscoveryService movieDiscoveryService) : Controller
 {
-    public IActionResult Index()
+    public async Task<IActionResult> Index(string? query, CancellationToken cancellationToken)
     {
-        return View();
+        var model = await movieDiscoveryService.GetDiscoveryAsync(query, cancellationToken);
+        return View(model);
+    }
+
+    public async Task<IActionResult> Movie(int id, CancellationToken cancellationToken)
+    {
+        var movie = await movieDiscoveryService.GetMovieAsync(id, cancellationToken);
+        return movie is null ? NotFound() : View(movie);
     }
 
     public IActionResult Privacy()

@@ -1,0 +1,85 @@
+@model MovieDiscoveryDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<article class="movie-profile">
+    <div class="movie-profile__backdrop" style="--detail-backdrop: url('@Model.BackdropUrl')">
+        <div class="movie-profile__backdrop-wash"></div>
+    </div>
+
+    <div class="movie-profile__content page-width">
+        <a class="back-link" asp-action="Index"><span aria-hidden="true">←</span> Back to discovery</a>
+
+        <div class="movie-profile__grid">
+            <div class="movie-profile__poster">
+                @if (Model.PosterUrl is not null)
+                {
+                    <img src="@Model.PosterUrl" alt="Poster for @Model.Title" />
+                }
+                else
+                {
+                    <span aria-hidden="true">@Model.Title.FirstOrDefault()</span>
+                }
+            </div>
+
+            <div class="movie-profile__copy">
+                <p class="eyebrow"><span></span> Film profile</p>
+                <h1>@Model.Title</h1>
+                @if (!string.IsNullOrWhiteSpace(Model.Tagline))
+                {
+                    <p class="movie-profile__tagline">“@Model.Tagline”</p>
+                }
+                <div class="movie-profile__facts">
+                    <span>@Model.ReleaseYear</span>
+                    <span>@Model.Runtime</span>
+                    @if (!string.IsNullOrWhiteSpace(Model.Certification))
+                    {
+                        <span class="rating-chip">@Model.Certification</span>
+                    }
+                    <span class="score"><span aria-hidden="true">★</span> @Model.VoteAverage.ToString("0.0")</span>
+                </div>
+
+                <p class="movie-profile__overview">@Model.Overview</p>
+
+                @if (Model.Genres.Count > 0)
+                {
+                    <div class="chip-row">
+                        @foreach (var genre in Model.Genres)
+                        {
+                            <span>@genre</span>
+                        }
+                    </div>
+                }
+
+                <div class="movie-profile__actions">
+                    <a class="button button--accent" asp-controller="Movies" asp-action="Create">Add a film to my shelf</a>
+                    <a class="button button--ghost" asp-action="Index" asp-route-query="@Model.Title">More like this</a>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.Director is not null || Model.Actors is not null || Model.Awards is not null || Model.BoxOffice is not null)
+        {
+            <dl class="film-notes">
+                @if (Model.Director is not null)
+                {
+                    <div><dt>Directed by</dt><dd>@Model.Director</dd></div>
+                }
+                @if (Model.Actors is not null)
+                {
+                    <div><dt>Featuring</dt><dd>@Model.Actors</dd></div>
+                }
+                @if (Model.Awards is not null)
+                {
+                    <div><dt>Recognition</dt><dd>@Model.Awards</dd></div>
+                }
+                @if (Model.BoxOffice is not null)
+                {
+                    <div><dt>Box office</dt><dd>@Model.BoxOffice</dd></div>
+                }
+            </dl>
+        }
+    </div>
+</article>
